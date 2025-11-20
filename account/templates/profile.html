@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - JWT Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .navbar-menu a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-menu a:hover {
+            color: #667eea;
+        }
+        
+        .btn-logout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn-logout:hover {
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 48px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .profile-header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .profile-header p {
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .profile-details {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-details h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #999;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .detail-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">My Profile</div>
+            <div class="navbar-menu">
+                <a href="{% url 'dashboard' %}">Home</a>
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{% url 'change_password' %}">Change Password</a>
+                <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {{ account.full_name.0|upper }}
+            </div>
+            <h1>{{ account.get_full_display_name }}</h1>
+            <p>{{ account.username }}</p>
+        </div>
+        
+        <div class="profile-details">
+            <h2>Personal Information</h2>
+            
+            <div class="detail-row">
+                <div class="detail-label">Salutation</div>
+                <div class="detail-value">{{ account.get_salutation_display }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Full Name</div>
+                <div class="detail-value">{{ account.full_name }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Date of Birth</div>
+                <div class="detail-value">{{ account.dob|date:"F d, Y" }} ({{ account.get_age }} years old)</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Gender</div>
+                <div class="detail-value">{{ account.get_gender_display }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">User Name</div>
+                <div class="detail-value">{{ account.username }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Phone Number</div>
+                <div class="detail-value">{{ account.phone|default:"Not provided" }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Address</div>
+                <div class="detail-value">{{ account.address }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Location</div>
+                <div class="detail-value">{{ account.location }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Account Status</div>
+                <div class="detail-value">
+                    {% if account.is_active %}
+                    <span class="badge badge-success">Active</span>
+                    {% else %}
+                    <span class="badge badge-warning">Inactive</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">username Verified</div>
+                <div class="detail-value">
+                    {% if account.is_verified %}
+                    <span class="badge badge-success">Verified</span>
+                    {% else %}
+                    <span class="badge badge-warning">Not Verified</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Member Since</div>
+                <div class="detail-value">{{ account.created_at|date:"F d, Y" }}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Last Login</div>
+                <div class="detail-value">{{ account.last_login|date:"F d, Y H:i"|default:"Never" }}</div>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hrms_app
+    ports:
+      - "7000:7000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - DJANGO_DEBUG=True
+      - DB_HOST=db
+      - DB_PORT=5432
+    command: bash entrypoint.sh   # overrides Dockerfile CMD during dev
+
+  db:
+    image: postgres:16
+    container_name: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

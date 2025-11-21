@@ -1,63 +1,61 @@
-<!-- Sidebar -->
-{% if request.is_authenticated %}
-    <nav class="sidebar offcanvas offcanvas-start" tabindex="-1" id="sidebar">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item nav-section">Main Menu</li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
-                        <i class="fas fa-globe me-2"></i> Public Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
-                        <i class="fas fa-home me-2"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'products' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-box me-2"></i> Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'orders' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-shopping-cart me-2"></i> Orders
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'customers' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-users me-2"></i> Customers
-                    </a>
-                </li>
+{% load static %}
+<nav class="sidebar offcanvas offcanvas-start" tabindex="-1" id="sidebar">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item nav-section">Main Menu</li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                    <i class="fas fa-globe me-2"></i> Public Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'products' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-box me-2"></i> Products
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'orders' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-shopping-cart me-2"></i> Orders
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'customers' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-users me-2"></i> Customers
+                </a>
+            </li>
 
-                <li class="nav-item nav-section mt-3">Management</li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'reports' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-chart-bar me-2"></i> Reports
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'analytics' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-chart-pie me-2"></i> Analytics
-                    </a>
-                </li>
+            <li class="nav-item nav-section mt-3">Management</li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'reports' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-chart-bar me-2"></i> Reports
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'analytics' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-chart-pie me-2"></i> Analytics
+                </a>
+            </li>
 
-                <li class="nav-item nav-section mt-3">Settings</li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'settings' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-cog me-2"></i> Settings
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if 'users' in request.path %}active{% endif %}" href="#">
-                        <i class="fas fa-user-lock me-2"></i> User Management
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-{% endif %}
+            <li class="nav-item nav-section mt-3">Settings</li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'settings' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-cog me-2"></i> Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'users' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-user-lock me-2"></i> User Management
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,30 +16,36 @@
     <link href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css" rel="stylesheet">
 
     <!-- Custom CSS Block -->
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        {% if request.user.is_authenticated %}
+            {% include 'includes/sidebar.html' %}
+        {% endif %}
+        <!-- /#sidebar-wrapper -->
 
-    {% load static %}
+        <!-- Page Content Wrapper -->
+        <div id="page-content-wrapper">
+            <!-- Navbar -->
+            {% include 'includes/navbar.html' %}
+            <!-- /#navbar -->
 
+            <!-- Flash Messages -->
+            {% include 'includes/messages.html' %}
 
-    <!-- ==================== SIDEBAR ==================== -->
-    {% if request.user.is_authenticated %}
-        {% include 'includes/sidebar.html' %}
-    {% endif %}
-    <!-- ================================================= -->
-
-    <!-- Flash Messages -->
-    {% include 'includes/messages.html' %}
-
-    <!-- Page Content -->
-    <main>
-        <div class="container-fluid py-4">
-            {% block content %}
-            <!-- Child templates will fill this -->
-            {% endblock %}
+            <!-- Page Content -->
+            <div class="container-fluid py-4">
+                {% block content %}
+                <!-- Child templates will fill this -->
+                {% endblock %}
+            </div>
         </div>
-    </main>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

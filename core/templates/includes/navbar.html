@@ -1,54 +1,76 @@
-{% comment %} {% load static %}
-<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'assets/images/logo.png' %}" alt="" class="logo">
-            <img src="{% static 'assets/images/logo-icon.png' %}" alt="" class="logo-thumb">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link pop-search" href="#"><i class="feather icon-search"></i></a>
-                <div class="search-bar">
-                    <input type="text" class="form-control border-0 shadow-none" placeholder="Search here">
-                    <button type="button" class="btn-close" aria-label="Close"></button>
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <img src="{% static 'assets/images/user/avatar-1.jpg' %}" class="img-radius wid-40"
-                        alt="User-Profile-Image">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li>
-                        <div class="pro-head text-center py-2">
-                            <img src="{% static 'assets/images/user/avatar-1.jpg' %}" class="img-radius mb-2"
-                                alt="User-Profile-Image">
-                            {% if request.user.is_authenticated %}
-                                <span>{{ request.user.username }}</span>
-                            {% else %}
-                                <span>Guest</span>
-                            {% endif %}
-                        </div>
-                    </li>
-                    {% if request.user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{% url 'change_password' %}">
-                            <i class="feather icon-lock"></i> Change Password</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i
-                                    class="feather icon-lock"></i> Logout</a></li>
-                    {% else %}
-                        <li><a class="dropdown-item" href="{% url 'login' %}"><i
-                            class="feather icon-log-in"></i> Sign IN</a></li>
-                    {% endif %}
-                </ul>
-            </li>
-        </ul>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <div class="container-fluid">
+    <!-- Sidebar Toggle & Brand -->
+    <div class="d-flex align-items-center gap-3">
+      <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <i class="fas fa-building me-2"></i>HR System
+      </a>
     </div>
-</header> {% endcomment %}
+
+    <!-- Navbar Collapse -->
+    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        {% if request.user.is_authenticated %}
+          <!-- Notifications -->
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="#" title="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+            </a>
+          </li>
+
+          <!-- Messages -->
+          <li class="nav-item">
+            <a class="nav-link" href="#" title="Messages">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+
+          <!-- User Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="user-avatar rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+              <span class="d-none d-md-inline">{{ request.user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+              <li class="dropdown-header">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="user-avatar-lg rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fas fa-user text-white"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold">{{ request.user.username }}</div>
+                    <small class="text-muted">{{ request.user.email }}</small>
+                  </div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user-circle me-2"></i>My Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'change_password' %}"><i class="fas fa-key me-2"></i>Change Password</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link btn btn-sm btn-outline-primary ms-2" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-sm btn-primary ms-2" href="{% url 'register' %}">Register</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -26,7 +26,9 @@
     <!-- ================================================= -->
 
     <!-- ==================== SIDEBAR ==================== -->
-    {% include 'includes/sidebar.html' %}
+    {% if request.user.is_authenticated %}
+        {% include 'includes/sidebar.html' %}
+    {% endif %}
     <!-- ================================================= -->
 
     <!-- Main Wrapper -->

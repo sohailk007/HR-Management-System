@@ -16,6 +16,7 @@ class JWTAuthenticationMiddleware(MiddlewareMixin):
         public_urls = [
             reverse('login'),
             reverse('register'),
+            reverse('home'),
             '/static/',
             '/media/',
         ]
